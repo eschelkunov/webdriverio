@@ -49,7 +49,7 @@ jobs:
           name: generate report
           command: |
             pwd
-            ./allure-2.7.0/bin/allure generate -c /tmp/my_allure_results
+            ./allure-2.7.0/bin/allure generate -c /allure_results -o /tmp/my_allure_report
           when: always
 
 
