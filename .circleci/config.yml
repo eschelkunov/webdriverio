@@ -1,0 +1,61 @@
+version: 2
+jobs:
+  build:
+    docker:
+      - image: circleci/node:8.11.4-browsers
+      - image: selenium/hub
+        name: hub
+      - image: selenium/node-firefox
+      - image: selenium/node-chrome
+        environment:
+          HUB_PORT_4444_TCP_ADDR: hub
+          HUB_PORT_4444_TCP_PORT: 4444
+    working_directory: ~/repo
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+
+      - run: npm install
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+      
+      - run:
+          name: test preparing
+          command: npm run setup-test
+          background: true
+          timeout: 4000
+
+      - run:
+          name: install allure
+          command: |
+            curl -o allure-2.7.0.zip -Ls https://bintray.com/qameta/generic/download_file?file_path=io%2Fqameta%2Fallure%2Fallure%2F2.7.0%2Fallure-2.7.0.zip
+            unzip allure-2.7.0.zip
+            chmod -R 777 ./allure-2.7.0/bin/
+            pwd
+            ls
+
+      - run:
+          name: run tests
+          command: npm test
+      
+      - run:
+          name: generate report
+          command: |
+            pwd
+            ls
+            ./allure-2.7.0/bin/allure generate -c allure-results -o /tmp/my_allure_report
+          when: always
+
+
+      - store_artifacts:
+          path: /tmp/my_allure_report
+          destination: allure_report
