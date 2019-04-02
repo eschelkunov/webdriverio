@@ -37,7 +37,7 @@ describe('Testing Login Form...', function() {
 
      describe('When there are correct login and password', function() {
         it('should display an username', function(done) {
-            loginPage.doLogin('yshchelkunov', 'xxxxxxxxx', browser);
+            loginPage.doLogin('yshchelkunov', '3Barbapapa1@', browser);
             $(userMenu).waitForDisplayed(3000);
             expect(browser.getTitle()).toBe('Home - LMS');
             browser.call(done);
