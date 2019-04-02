@@ -51,7 +51,7 @@ jobs:
           command: |
             pwd
             ls
-            ./allure-2.7.0/bin/allure generate -c allure_results -o /tmp/my_allure_report
+            ./allure-2.7.0/bin/allure generate -c allure-results -o /tmp/my_allure_report
           when: always
 
 
