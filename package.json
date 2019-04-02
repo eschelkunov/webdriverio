@@ -4,7 +4,7 @@
   "description": "lms test project",
   "main": "index.js",
   "scripts": {
-    "setup-test": "./node_modules/.bin/selenium-standalone install && ./node_modules/.bin/selenium-standalone start",
+    
     "test": "./node_modules/.bin/wdio wdio.conf.js"
   },
   "keywords": [
