@@ -34,7 +34,8 @@ jobs:
 
       - run:
           name: run tests
-          command: npm test
+          command: | 
+          npm test
 
       - run:
           name: install allure
