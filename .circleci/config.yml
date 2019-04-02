@@ -49,9 +49,8 @@ jobs:
           name: generate report
           command: |
             pwd
-            ./allure-2.7.0/bin/allure generate -c /allure_results -o /tmp/my_allure_report
+            ./allure-2.7.0/bin/allure serve -c allure_results -o /tmp/my_allure_report
           when: always
-
 
       - store_artifacts:
           path: /tmp/my_allure_report
