@@ -38,6 +38,7 @@ jobs:
       - run:
           name: test preparing
           command: npm run setup-test
+          background: true
 
       - run:
           name: run tests
