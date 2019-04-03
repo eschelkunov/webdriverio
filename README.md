@@ -4,3 +4,4 @@
 3. Run 'npm test' to run your tests ( e.o. loginForm tests are keeping there --> ./test/specs/loginFormTest.js)
 4. You can use your own credentials for success login to LMS (loginPage.doLogin('username', 'password', browser);)
 5. Now, when you have access to this repo you should have an access as well to build information on CircleCi (https://circleci.com/gh/eschelkunov/webdriverio)
+6. To see report details please open Jobs - choose build - Artifacts tab - index.html 
