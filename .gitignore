@@ -1,3 +1,5 @@
 node_modules
 .DS_Store
 allure-results/
+.idea/
+.idea/vcs.xml

@@ -1,48 +1,36 @@
 'use strict';
 
-const loginPage = require('../pages/loginPage');
-const myUrl = 'https://lms.lohika.com/';
-const errorElement = '//*[@role="alert"]/div[contains(text(),"You entered nothing")]';
-const invalidCredsIcon = '//*[contains(text(),"Invalid credentials")]';
-const userMenu = 'button[name="userMenu"]';
+const LoginPage = new (require('../pages/LoginPage'))();
+const HomePage = new (require('../pages/HomePage'))();
 
-describe('Testing Login Form...', function() {
-    
-    beforeAll(function(done) {
-        browser.navigateTo(myUrl);
-        browser.call(done);
+describe('login form', () => {
+
+    it('should deny access with empty creds', () => {
+        LoginPage.open();
+        LoginPage.username.setValue('');
+        LoginPage.password.setValue('');
+        LoginPage.submit();
+
+        expect(LoginPage.errorMessage.getText()).toContain('You entered nothing');
     });
 
-    afterAll(function(done) {
-        browser.deleteCookies();
-        browser.call(done);
+    it('should deny access with wrong creds', () => {
+        LoginPage.open();
+        LoginPage.username.setValue('test123');
+        LoginPage.password.setValue('test123');
+        LoginPage.submit();
+
+        expect(LoginPage.errorIcon.getText()).toContain('Invalid credentials');
     });
 
-    describe('When there are no creds', function() {
-        it('should display an error message', function(done) {
-            loginPage.doLogin('','', browser);
-            expect($(errorElement).getText()).toContain('You entered nothing');
-            browser.call(done);
-        });
-     });
+    it('should allow access with correct creds', () => {
+        LoginPage.open();
+        LoginPage.username.setValue('yshchelkunov');
+        LoginPage.password.setValue('3Barbapapa1@');
+        LoginPage.submit();
+        HomePage.waitForSuccess();
 
-     describe('When there are wrong credentials', function() {
-        it('should display an error message as well', function(done) {
-            loginPage.doLogin('test123','test123', browser);
-            expect($(invalidCredsIcon).getText()).toContain('Invalid credentials');
-            browser.call(done);
-        });
-        
-     });
+        expect(HomePage.getTitle()).toBe('Home - LMS');
+    });
 
-     describe('When there are correct login and password', function() {
-        it('should display an username', function(done) {
-            loginPage.doLogin('yshchelkunov', '3Barbapapa1@', browser);
-            $(userMenu).waitForDisplayed(3000);
-            expect(browser.getTitle()).toBe('Home - LMS');
-            browser.call(done);
-        });
-     });
- 
-      
- });
+});
